@@ -25,10 +25,13 @@ restService.post('/hook', function (req, res) {
                     speech += ' ';
                 }
 
-                if (requestBody.result.action) {
-                    //speech += 'action: ' + requestBody.result.action;
-					speech += requestBody.result;
-                }
+                /*if (requestBody.result.action) {
+                    speech += 'action: ' + requestBody.result.action;
+					//speech += requestBody.result;
+                }*/
+				if (requestBody.result.action){
+					speech += 'Tata';
+				}
             }
         }
 
