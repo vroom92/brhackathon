@@ -29,7 +29,7 @@ restService.post('/hook', function (req, res) {
                     speech += 'action: ' + requestBody.result.action;
 					//speech += requestBody.result;
                 }*/
-				if (requestBody.result.action=='input.welcome'||requestBody.result.action=='know.blk'){
+				if (requestBody.result.action=='input.welcome'||requestBody.result.action=='know.blk'||requestBody.result.action=='input.unknown'){
 					if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
                     speech += '';
