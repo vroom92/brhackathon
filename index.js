@@ -30,6 +30,15 @@ restService.post('/hook', function (req, res) {
                     if (req.body.result.parameters['date']) {
                         var date = req.body.result.parameters['date'];
                     }
+                    
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                    console.log(JSON.stringify(JSON.parse(this.responseText)));
+                    }
+                    };
+                    xmlhttp.open("GET", "https://www.blackrock.com/tools/hackathon/security-data?identifiers=IXN", false);
+                    xmlhttp.send();
                     speech += requestBody.result.fulfillment.speech + city + date;
                 }
             }
