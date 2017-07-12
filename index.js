@@ -29,12 +29,16 @@ restService.post('/hook', function (req, res) {
                     speech += 'action: ' + requestBody.result.action;
 					//speech += requestBody.result;
                 }*/
-				if (requestBody.result.action=='input.welcome'||requestBody.result.action=='know.blk'||requestBody.result.action=='input.unknown'){
+                if( requestBody.result.action=='input.welcome' || requestBody.result.action=='know.blk' || 
+                    requestBody.result.action=='blk.history' || requestBody.result.action=='input.unknown' ){
 					if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
                     speech += '';
 					}
-				}
+				} else if( requestBody.result.action == "get.dev.cert.info" ) {
+                    speech = "See: http://webster.bfm.com/Wiki";
+
+                }
             }
         }
 
