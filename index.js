@@ -39,7 +39,7 @@ restService.post('/hook', function (req, res) {
                     speech+ = "See: http://webster.bfm.com/Wiki";
 
                 }
-				 else if (requestBody.result.action == "weather") {
+				/* else if (requestBody.result.action == "weather") {
                     var city = req.body.result.parameters['geo-city'];
                    // console.log(city);
                     if (req.body.result.parameters['date']) {
@@ -47,7 +47,7 @@ restService.post('/hook', function (req, res) {
                         //console.log('Date: ' + date);
                     }
 					var url = "https://api.worldweatheronline.com/premium/v1/weather.ashx?format=json&num_of_days=1&"+"q="+city+"&key=9b586ac440a244c0bbd205511171107&date=today";
-					/*var xmlhttp = new XMLHttpRequest();
+					var xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
 							var response=(JSON.parse(this.responseText));
@@ -60,8 +60,8 @@ restService.post('/hook', function (req, res) {
 						}
 					};
 					xmlhttp.open("GET",url, true);
-					xmlhttp.send();*/
-				 }	
+					xmlhttp.send();
+				 }	*/
             }
         }
 
