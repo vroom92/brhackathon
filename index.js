@@ -25,8 +25,12 @@ restService.post('/hook', function (req, res) {
                     speech += ' ';
                 }
 
-                if (requestBody.result.action) {
-                    speech += 'action: ' + requestBody.result.action;
+                if (requestBody.result.action=='yahooWeatherForecast') {
+                    var city = req.body.result.parameters['geo-city'];
+                    if (req.body.result.parameters['date']) {
+                        var date = req.body.result.parameters['date'];
+                    }
+                    speech += requestBody.result.fulfillment.speech + city + date;
                 }
             }
         }
