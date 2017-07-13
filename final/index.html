@@ -1,0 +1,148 @@
+<html>
+<head>
+	<title>API Example</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="main.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbYJ9gCgQ-ZCnEKDAZbNYNsH3vbqjzNqo&libraries=places" async defer></script>
+	<script type="text/javascript">
+
+		var accessToken = "3207d1211bc241e1a4b2df7683395031";
+		var baseUrl = "https://api.api.ai/v1/";
+		$(document).ready(function() {
+			$("#input").keypress(function(event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					send();
+				}
+			});
+			$("#rec").click(function(event) {
+				switchRecognition();
+			});
+		});
+
+		var recognition;
+		function startRecognition() {
+			recognition = new webkitSpeechRecognition();
+			recognition.onstart = function(event) {
+				updateRec();
+			};
+			recognition.onresult = function(event) {
+				var text = "";
+			    for (var i = event.resultIndex; i < event.results.length; ++i) {
+			    	text += event.results[i][0].transcript;
+			    }
+			    setInput(text);
+				stopRecognition();
+			};
+			recognition.onend = function() {
+				stopRecognition();
+			};
+			recognition.lang = "en-US";
+			recognition.start();
+		}
+
+		function stopRecognition() {
+			if (recognition) {
+				recognition.stop();
+				recognition = null;
+			}
+			updateRec();
+		}
+
+		function switchRecognition() {
+			if (recognition) {
+				stopRecognition();
+			} else {
+				startRecognition();
+			}
+		}
+
+		function setInput(text) {
+			$("#input").val(text);
+			send();
+		}
+
+		function updateRec() {
+			$("#rec").text(recognition ? "Stop" : "Speak");
+		}
+
+		function send() {
+			var text = $("#input").val();
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "query?v=20150910",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				headers: {
+					"Authorization": "Bearer " + accessToken
+				},
+				data: JSON.stringify({ query: text, lang: "en", sessionId: "somerandomthing" }),
+
+				success: function(data) {
+					//setResponse(JSON.stringify(data, undefined, 2));
+					//setResponse(data.result.fulfillment.speech);
+					var data2=data;
+					if(data.result.action=='yahooWeatherForecast'){
+						if(data2.result.parameters['geo-city']){
+					var city=data2.result.parameters['geo-city'];
+					var url="https://api.worldweatheronline.com/premium/v1/weather.ashx?format=json&num_of_days=1&q="+city+"&key=9b586ac440a244c0bbd205511171107&date=today";
+					$.get(url, function(response) {
+					var currdate = response.data.weather[0].date;
+          var currTemp = response.data.current_condition[0].temp_F;
+					setResponse(data2.result.fulfillment.speech+" "+ currTemp + "F on " + currdate );
+					//setResponse(JSON.stringify(data2));
+							});
+						}
+					else {
+						setResponse(data.result.fulfillment.speech);
+						}
+					}
+
+					else if(data.result.action=='searchsec'){
+						var stock=data2.result.parameters['security'];
+						var url2="https://www.blackrock.com/tools/hackathon/security-data?identifiers="+stock;
+						$.get(url2, function(response2) {
+							//var assetClass=response2.resultMap.security[0].assetClass;
+							var assetClass = response2.resultMap.SECURITY[0].assetClass;
+							var assetType = response2.resultMap.SECURITY[0].assetType;
+							var cusip= response2.resultMap.SECURITY[0].cusip;
+							var secName= response2.resultMap.SECURITY[0].description;
+							//setResponse(JSON.stringify(response2));
+							setResponse(data2.result.fulfillment.speech+"<br>AssetClass: "+assetClass+"<br>AssetType: "+assetType+"<br>Cusip: "+cusip+"<br>SecurityName: "+secName);
+							//setResponse(data2.result.fulfillment.speech+" Asset Class "+response.resultMap.SECURITY[0].assetClass);
+							});
+					}
+					/*else if(data.result.action=='get.dev.cert.info'){
+						setResponse(data2.result.fulfillment.speech+" "+"<a target='_blank' href='https://webster.bfm.com/Wiki/display/tech/AJDC+-+Aladdin+Java+Developer+Certificate'>Dev Credentials</a>");
+					}*/
+					else if(data.result.action=="hungryfood"){
+
+					}
+					else
+					setResponse(data.result.fulfillment.speech);
+				},
+				error: function() {
+					setResponse("Internal Server Error");
+				}
+			});
+			setResponse("Loading...");
+		}
+
+		function setResponse(val) {
+			//$("#response").text(val);
+			document.getElementById('response').innerHTML=val;
+		}
+
+	</script>
+</head>
+<body>
+	<header>
+   		<img src="logo.png" id="logo">
+	</header>
+	<div>
+		<input id="input" type="text"> <button id="rec">Speak</button>
+		<br>Response<br> <p id="response"></p><!--<textarea id="response" cols="40" rows="20"></textarea>-->
+	</div>
+</body>
+</html>
