@@ -1,0 +1,63 @@
+body {
+    font-family: 'Avenir Next', sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    color: darkgray;
+    padding: 0 auto;
+}
+
+header {
+    height: 1em;
+    width: 100%;
+    padding: 20px;
+    color: black;
+    border-bottom: .5px solid darkgray;
+}
+
+#logo {
+    height: 15px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+div {
+    margin: 0 auto;
+    width: 500px;
+    padding-top: 3em;
+}
+
+input {
+    width: 79%;
+    border: 2px solid #439CBC;
+    height: 40px;
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+    font-family: 'Avenir Next', sans-serif;
+    background: #76B7CE;
+}
+
+button {
+    width: 19%;
+    font-family: 'Avenir Next', sans-serif;
+    background-color: #76B7CE;
+    display: inline-block;
+    text-align: center;
+    color: #FFFFFF;
+    height: 40px;
+    border: 2px solid #439CBC;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+textarea {
+    width: 100%;
+    height: 7em;
+    resize: none;
+    overflow: auto;
+    border: none;
+    background: darkblue;
+    margin-top: 5px;
+}
