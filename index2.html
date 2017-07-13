@@ -116,53 +116,53 @@
 						setResponse(data2.result.fulfillment.speech+" "+"<a target='_blank' href='https://webster.bfm.com/Wiki/display/tech/AJDC+-+Aladdin+Java+Developer+Certificate'>Dev Credentials</a>");
 					}*/
 					else if(data.result.action=="hungryfood"){
-										var map;
-										var infowindow;
+						var map;
+						var infowindow;
+						var cuisine = "food";
 
-										function initMap() {
-										var pyrmont = {lat: 37.788, lng: -122.395};
-										//37.788984, -122.395792
+						function initMap() {
+							var pyrmont = {lat: 37.788, lng: -122.395};
+							//37.788984, -122.395792
 
-										map = new google.maps.Map(document.getElementById('response'), {
-										center: pyrmont,
-										zoom: 15
-										});
+							map = new google.maps.Map(document.getElementById('response'), {
+								center: pyrmont,
+								zoom: 15
+							});
 
-										infowindow = new google.maps.InfoWindow();
-										var service = new google.maps.places.PlacesService(map);
-										service.textSearch({
-										query: "pasta",
-										openNow: true,
-										location: pyrmont,
-										radius: 500
-										}, callback);
-										}
+							infowindow = new google.maps.InfoWindow();
+							var service = new google.maps.places.PlacesService(map);
+							service.textSearch({
+									query: cuisine,
+									openNow: true,
+									location: pyrmont,
+									radius: 500
+								}, callback);
+						}
 
-										function callback(results, status) {
-										if (status === google.maps.places.PlacesServiceStatus.OK) {
-										for (var i = 0; i < results.length; i++) {
-										createMarker(results[i]);
-										}
-										}
-										}
-										initMap();
-										function createMarker(place) {
-										var placeLoc = place.geometry.location;
-										var marker = new google.maps.Marker({
-										map: map,
-										position: place.geometry.location
-										});
+						function callback(results, status) {
+							if (status === google.maps.places.PlacesServiceStatus.OK) {
+								for (var i = 0; i < results.length; i++) {
+									createMarker(results[i]);
+								}
+							}
+						}
+						function createMarker(place) {
+							var placeLoc = place.geometry.location;
+							var marker = new google.maps.Marker({
+								map: map,
+								position: place.geometry.location
+							});
 
-										google.maps.event.addListener(marker, 'click', function() {
-										var photos = place.photos;
-										var picUrl0 = photos[0].getUrl({'maxWidth': 350, 'maxHeight': 325});
-										var contentText=place.name + " [" + place.rating + "]<br/><img src='" + picUrl0 + "' />";
-										infowindow.setContent(contentText);
-										infowindow.open(map, marker);
-										});
-										}
-					}
-					else
+						google.maps.event.addListener(marker, 'click', function() {
+								var photos = place.photos;
+								var picUrl0 = photos[0].getUrl({'maxWidth': 350, 'maxHeight': 325});
+								var contentText=place.name + " [" + place.rating + "]<br/><img src='" + picUrl0 + "' />";
+								infowindow.setContent(contentText);
+								infowindow.open(map, marker);
+							});
+						}
+						initMap();
+					} else
 					setResponse(data.result.fulfillment.speech);
 				},
 				error: function() {
@@ -189,7 +189,7 @@
 <body>
 	<div>
 		<input id="input" type="text"> <button id="rec">Speak</button>
-		<br>Response<br> <p id="response"></p><!--<textarea id="response" cols="40" rows="20"></textarea>-->
+		<br>Response<br> <div style="height:1000px;width:100%;margin:0 auto;border:2px solid black;" id="response"></div><!--<textarea id="response" cols="40" rows="20"></textarea>-->
 	</div>
 </body>
 </html>
